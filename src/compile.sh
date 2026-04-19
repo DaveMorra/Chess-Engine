@@ -1,0 +1,1 @@
+javac ChessBoard.java Main.java MainSimulator.java Piece.java EvaluateBoard.java

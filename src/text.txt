@@ -1,0 +1,7 @@
+paste in cmd: chcp 65001
+
+./compile.sh
+
+java Main.java
+
+./compile.sh ; java Main.java
