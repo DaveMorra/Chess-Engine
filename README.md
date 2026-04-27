@@ -10,3 +10,8 @@ git push https://github.com/DaveMorra/Chess-Engine.git main
 
 # How to pull changes
 git pull https://github.com/DaveMorra/Chess-Engine.git main
+
+# change branch
+git branch
+
+git checkout main
