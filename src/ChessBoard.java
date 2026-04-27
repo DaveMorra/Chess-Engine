@@ -4,6 +4,50 @@ import java.util.Comparator;
 
 public class ChessBoard {
 
+    /*
+    white -> positive
+    black -> negitive
+
+    piece   unmoved/defult  moved
+    nothing 0
+    pawn    10               11
+    knight  20               21
+    bishop  30               31
+    rook    40               41
+    queen   50               51
+    king    60               61
+    */
+
+    public static final int WHITE_PAWN = 10;
+    public static final int WHITE_KNIGHT = 20;
+    public static final int WHITE_BISHOP = 30;
+    public static final int WHITE_ROOK = 40;
+    public static final int WHITE_QUEEN = 50;
+    public static final int WHITE_KING = 60;
+
+    public static final int WHITE_PAWN_MOVED = 11;
+    public static final int WHITE_KNIGHT_MOVED = 21;
+    public static final int WHITE_BISHOP_MOVED = 31;
+    public static final int WHITE_ROOK_MOVED = 41;
+    public static final int WHITE_QUEEN_MOVED = 51;
+    public static final int WHITE_KING_MOVED = 61;
+
+    public static final int BLACK_PAWN = -10;
+    public static final int BLACK_KNIGHT = -20;
+    public static final int BLACK_BISHOP = -30;
+    public static final int BLACK_ROOK = -40;
+    public static final int BLACK_QUEEN = -50;
+    public static final int BLACK_KING = -60;
+
+    public static final int BLACK_PAWN_MOVED = -11;
+    public static final int BLACK_KNIGHT_MOVED = -21;
+    public static final int BLACK_BISHOP_MOVED = -31;
+    public static final int BLACK_ROOK_MOVED = -41;
+    public static final int BLACK_QUEEN_MOVED = -51;
+    public static final int BLACK_KING_MOVED = -61;
+
+    public static final int EMPTY = 0;
+
     public ArrayList<ChessBoard> nextMoveList;
     public byte[][] board;
     public byte lastMovedSquare; //0-63
@@ -36,7 +80,8 @@ public class ChessBoard {
             {10, 10, 10, 10, 10, 10, 10, 10},
             {40, 20, 30, 50, 60, 30, 20, 40}
         };
-        evaluateScore(); //set score to 0 in the futrue
+        //evaluateScore(); //set score to 0 in the futrue
+        score = 0;
         return true;
     }
 
@@ -62,45 +107,45 @@ public class ChessBoard {
             for(int x = 0; x < 8; x++) {
                 
                 //if board spot is not a peice or curr piece is opposite color or team team that suppost to move, break.
-                if((!Piece.isPiece(board[y][x])) || (isWhitesMove() != Piece.isWhite(board[y][x]))) {continue;}
+                if((!isPiece(board[y][x])) || (isWhitesMove() != isWhite(board[y][x]))) {continue;}
                 
                 //see what peice type is selected and execute corrisponding function
                 //can use multicasting if java -V is 14.0+
-                switch(Piece.type(board[y][x])) {
-                    case Piece.WHITE_PAWN:
+                switch(type(board[y][x])) {
+                    case WHITE_PAWN:
                         getPawnMoves(y,x);
                         continue;
-                    case Piece.BLACK_PAWN:
+                    case BLACK_PAWN:
                         getPawnMoves(y,x);
                         continue;
-                    case Piece.WHITE_KNIGHT:
+                    case WHITE_KNIGHT:
                         getKnightMoves(y,x);
                         continue;
-                    case Piece.BLACK_KNIGHT:
+                    case BLACK_KNIGHT:
                         getKnightMoves(y,x);
                         continue;
-                    case Piece.WHITE_BISHOP:
+                    case WHITE_BISHOP:
                         getBishopMoves(y,x);
                         continue;
-                    case Piece.BLACK_BISHOP:
+                    case BLACK_BISHOP:
                         getBishopMoves(y,x);
                         continue;
-                    case Piece.WHITE_ROOK:
+                    case WHITE_ROOK:
                         getRookMoves(y,x);
                         continue;
-                    case Piece.BLACK_ROOK:
+                    case BLACK_ROOK:
                         getRookMoves(y,x);
                         continue;
-                    case Piece.WHITE_QUEEN:
+                    case WHITE_QUEEN:
                         getQueenMoves(y,x);    
                         continue;
-                    case Piece.BLACK_QUEEN:
+                    case BLACK_QUEEN:
                         getQueenMoves(y,x); 
                         continue;
-                    case Piece.WHITE_KING:
+                    case WHITE_KING:
                         getKingMoves(y,x);
                         continue;
-                    case Piece.BLACK_KING:
+                    case BLACK_KING:
                         getKingMoves(y,x);
                         continue;
 
@@ -123,7 +168,7 @@ public class ChessBoard {
         }
         if(isWhitesMove()) {System.out.print("\nMove: White");}
         else {{System.out.print("\nMove: Black");}}
-        {System.out.print("\nScore: " + score);}
+        {System.out.print("\nScore: " + score + "\n");}
 
         return true;
     }
@@ -134,44 +179,44 @@ public class ChessBoard {
         boolean darkMode = true;
         int piece = darkMode ? board[y][x] * -1: board[y][x];
 
-        switch(Piece.type(piece)) {
-            case Piece.WHITE_PAWN:
+        switch(type(piece)) {
+            case WHITE_PAWN:
                 System.out.print("\u2659 ");
                 break;
-            case Piece.BLACK_PAWN: //black pawn
+            case BLACK_PAWN: //black pawn
                 System.out.print("\u265F ");
                 break;
-            case Piece.WHITE_ROOK: //white rook
+            case WHITE_ROOK: //white rook
                 System.out.print("\u2656 ");
                 break;
-            case Piece.BLACK_ROOK: //black rook
+            case BLACK_ROOK: //black rook
                 System.out.print("\u265C ");
                 break;
-            case Piece.WHITE_KING: //white king
+            case WHITE_KING: //white king
                 System.out.print("\u2654 ");
                 break;
-            case Piece.BLACK_KING: //black king
+            case BLACK_KING: //black king
                 System.out.print("\u265A ");
                 break;
-            case Piece.WHITE_QUEEN: //white queen
+            case WHITE_QUEEN: //white queen
                 System.out.print("\u2655 ");
                 break;
-            case Piece.BLACK_QUEEN: //black queen
+            case BLACK_QUEEN: //black queen
                 System.out.print("\u265B ");
                 break;
-            case Piece.WHITE_BISHOP: //white bishop
+            case WHITE_BISHOP: //white bishop
                 System.out.print("\u2657 ");
                 break;
-            case Piece.BLACK_BISHOP: //black bishop
+            case BLACK_BISHOP: //black bishop
                 System.out.print("\u265D ");
                 break;
-            case Piece.WHITE_KNIGHT: //white knight
+            case WHITE_KNIGHT: //white knight
                 System.out.print("\u2658 ");
                 break;
-            case Piece.BLACK_KNIGHT: //black knight
+            case BLACK_KNIGHT: //black knight
                 System.out.print("\u265E ");
                 break;
-            case Piece.EMPTY: //empty
+            case EMPTY: //empty
                 if((y%2==0 && x%2==0) || (y%2==1 && x%2==1)) {
                     System.out.print("\u2591"+"\u2591"); 
                 }
@@ -190,14 +235,14 @@ public class ChessBoard {
     private void getPawnMoves(int y, int x) {
         
         //can move forward once
-        if(Piece.isWhite(board[y][x]) && true) {
+        if(isWhite(board[y][x]) && true) {
             ChessBoard newBoard = generateNextBoard();
-            newBoard.board[y][x] = Piece.EMPTY;
+            newBoard.board[y][x] = EMPTY;
             newBoard.board[y-1][x] = 11;
         }
-        if(Piece.isBlack(board[y][x]) && true) {
+        if(isBlack(board[y][x]) && true) {
             ChessBoard newBoard = generateNextBoard();
-            newBoard.board[y][x] = Piece.EMPTY;
+            newBoard.board[y][x] = EMPTY;
             newBoard.board[y+1][x] = -11;
         }
     }
@@ -207,10 +252,10 @@ public class ChessBoard {
         final byte moveArrayY[] = {2, 2, 1, 1, -1, -1, -2, -2};
         final byte moveArrayX[] = {1, -1, 2, -2, 2, -2, 1, -1};
         for(int i = 0; i < 8; i++) {
-            if(isInBounds(y + moveArrayY[i], x + moveArrayX[i]) && (!Piece.isPiece(board[y + moveArrayY[i]][x + moveArrayX[i]]) || Piece.isWhite(board[y + moveArrayY[i]][x + moveArrayX[i]]) != isWhitesMove())) {
+            if(isInBounds(y + moveArrayY[i], x + moveArrayX[i]) && (!isPiece(board[y + moveArrayY[i]][x + moveArrayX[i]]) || isWhite(board[y + moveArrayY[i]][x + moveArrayX[i]]) != isWhitesMove())) {
                 ChessBoard newBoard = generateNextBoard();
                 newBoard.board[y + moveArrayY[i]][x + moveArrayX[i]] = newBoard.board[y][x];
-                newBoard.board[y][x] = Piece.EMPTY;
+                newBoard.board[y][x] = EMPTY;
             }
         }
 
@@ -230,12 +275,12 @@ public class ChessBoard {
                 xNew = (byte) (x + (moveArrayX[i] * length));
 
                 //if piece is in bounds, and the quare is empty or, opposite teams piece is getting captured
-                if(isInBounds(yNew, xNew) && (!Piece.isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
+                if(isInBounds(yNew, xNew) && (!isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
                     
                     //System.out.println("test");
                     ChessBoard newBoard = generateNextBoard();
                     newBoard.board[yNew][xNew] = newBoard.board[y][x];
-                    newBoard.board[y][x] = Piece.EMPTY;
+                    newBoard.board[y][x] = EMPTY;
 
                 //if current square is own piece, ignore and break future chain moves
                 } else { break; }
@@ -262,12 +307,12 @@ public class ChessBoard {
                 xNew = (byte) (x + (moveArrayX[i] * length));
 
                 //if piece is in bounds, and the quare is empty or, opposite teams piece is getting captured
-                if(isInBounds(yNew, xNew) && (!Piece.isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
+                if(isInBounds(yNew, xNew) && (!isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
                     
                     //System.out.println("test");
                     ChessBoard newBoard = generateNextBoard();
                     newBoard.board[yNew][xNew] = newBoard.board[y][x];
-                    newBoard.board[y][x] = Piece.EMPTY;
+                    newBoard.board[y][x] = EMPTY;
 
                 //if current square is own piece, ignore and break future chain moves
                 } else { break; }
@@ -294,12 +339,12 @@ public class ChessBoard {
                 xNew = (byte) (x + (moveArrayX[i] * length));
 
                 //if piece is in bounds, and the quare is empty or, opposite teams piece is getting captured
-                if(isInBounds(yNew, xNew) && (!Piece.isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
+                if(isInBounds(yNew, xNew) && (!isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
                     
                     //System.out.println("test");
                     ChessBoard newBoard = generateNextBoard();
                     newBoard.board[yNew][xNew] = newBoard.board[y][x];
-                    newBoard.board[y][x] = Piece.EMPTY;
+                    newBoard.board[y][x] = EMPTY;
 
                 //if current square is own piece, ignore and break future chain moves
                 } else { break; }
@@ -325,17 +370,36 @@ public class ChessBoard {
             xNew = (byte) (x + (moveArrayX[i]));
 
             //if piece is in bounds, and the quare is empty or, opposite teams piece is getting captured
-            if(isInBounds(yNew, xNew) && (!Piece.isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
+            if(isInBounds(yNew, xNew) && (!isPiece(board[yNew][xNew]) || isTherePiece(yNew, xNew))) {
                     
                 //System.out.println("test");
                 ChessBoard newBoard = generateNextBoard();
                 newBoard.board[yNew][xNew] = newBoard.board[y][x];
-                newBoard.board[y][x] = Piece.EMPTY;
+                newBoard.board[y][x] = EMPTY;
 
             //if current square is own piece, ignore and break future chain moves
             } else { break; }
         }
 
+    }
+
+    public boolean doesPieceExists(int piece) {
+        for(int y = 0; y < 8; y++) {
+            for(int x = 0; x < 8; x++) {
+                if((board[y][x]/10) == piece/10) {return true;}
+            }
+        }
+        return false;
+    }
+
+    public int numberOfGivenPieces(int piece) {
+        int num = 0;
+        for(int y = 0; y < 8; y++) {
+            for(int x = 0; x < 8; x++) {
+                if((board[y][x]/10) == piece/10) {num++;}
+            }
+        }
+        return num;
     }
 
     private boolean isInBounds(int y,int x) {
@@ -353,17 +417,67 @@ public class ChessBoard {
 
     //true is piece, and is its own
     private boolean isOwnPiece(int y, int x) {
-        return (board[y][x] != 0) && (Piece.isWhite(board[y][x]) == (totalMoves%2==0));
+        return (board[y][x] != 0) && (isWhite(board[y][x]) == (totalMoves%2==0));
     }
 
     //true is piece, and is their own
     private boolean isTherePiece(int y, int x) {
-        return (board[y][x] != 0) && (Piece.isWhite(board[y][x]) != (totalMoves%2==0));
+        return (board[y][x] != 0) && (isWhite(board[y][x]) != (totalMoves%2==0));
+    }
+
+    public boolean isGameOver() {
+        return (!doesPieceExists(WHITE_KING) || !doesPieceExists(BLACK_KING));
     }
 
     //call evaluation function to return score
     private float evaluateScore() {
-        return score = Math.round(EvaluateBoard.getScore(this)*10000)/10000;
+        if(nextMoveList.isEmpty()) {
+            return score = Math.round(EvaluateBoard.getScore(this)*10000)/10000;
+        }
+        if(isWhitesMove()) {
+            return getMaxScoreFromNextMove();
+        }
+        return getMaxScoreFromNextMove();
+    }
+
+    public float getMaxScoreFromNextMove() {
+        float max= Float.MIN_NORMAL;
+        for(ChessBoard nextBoard:nextMoveList) {
+            max = Math.max(max, nextBoard.score);
+        }
+        return max;
+    }
+
+    public float getMinScoreFromNextMove() {
+        float min= Float.MAX_VALUE;
+        for(ChessBoard nextBoard:nextMoveList) {
+            min = Math.min(min, nextBoard.score);
+        }
+        return min;
+    }
+
+    public final static boolean isPiece(int piece) {
+        return piece!=0;
+    }
+
+    public final static boolean isWhite(int piece) {
+        return piece>0;
+    }
+
+    public final static boolean isBlack(int piece) {
+        return piece<0;
+    }
+
+    public final static int type(int piece) {
+        return piece-(piece%10);
+    }
+
+    public final static boolean hasMoved(int piece) {
+        return piece%10==1;
+    }
+
+    public final static byte setMoved(byte piece) {
+        return (byte) (type(piece) + 1);
     }
 
 }
